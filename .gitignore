@@ -1,0 +1,25 @@
+# Python and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Experiment outputs and local datasets
+results/
+data/
+models/
+*.pcap
+*.pcapng
+*.joblib
+*.csv
+*.log
+events.jsonl
+tc.jsonl
+voice.json
+config.json
+
+# Local editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
