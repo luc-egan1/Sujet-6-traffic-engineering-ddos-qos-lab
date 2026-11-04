@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Topologie Mininet pour le laboratoire DDoS et QoS</title>
+  <desc id="desc">Deux hôtes émetteurs, une voix VoIP et une charge de test, sont reliés au switch s1. Le lien entre le switch et le serveur h3 est limité à 10 Mbit/s. Un collecteur observe la charge et le contrôleur applique une règle tc sur le port d'entrée de h2.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#2563eb"/></marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#dc2626"/></marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#059669"/></marker>
+    <style>
+      text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#172033}.title{font-size:28px;font-weight:700}.subtitle{font-size:15px;fill:#526078}.node-title{font-size:18px;font-weight:700}.body{font-size:14px}.small{font-size:12px;fill:#526078}.link-label{font-size:13px;font-weight:600}.box{fill:#fff;stroke:#cbd5e1;stroke-width:2}.host{rx:16}.pill{rx:12}.line{fill:none;stroke-width:4;stroke-linecap:round}.dash{stroke-dasharray:9 8}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="#f8fafc"/>
+  <text x="52" y="58" class="title">Topologie Mininet — détection DDoS et protection QoS</text>
+  <text x="52" y="86" class="subtitle">Réseau de laboratoire isolé · lien serveur limité à 10 Mbit/s · trafic voix prioritaire</text>
+
+  <!-- Data plane -->
+  <rect x="58" y="155" width="230" height="122" class="box host"/>
+  <circle cx="91" cy="190" r="15" fill="#dbeafe"/><path d="M84 190h14M91 183v14" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="119" y="194" class="node-title">h1 · VoIP</text>
+  <text x="82" y="228" class="body">10.0.0.1/24</text>
+  <text x="82" y="252" class="small">iperf3 UDP · 64 kbit/s</text>
+
+  <rect x="58" y="438" width="230" height="136" class="box host" stroke="#fca5a5"/>
+  <circle cx="91" cy="474" r="15" fill="#fee2e2"/><path d="M83 474h16M91 466v16" stroke="#dc2626" stroke-width="2.5"/>
+  <text x="119" y="478" class="node-title">h2 · Charge test</text>
+  <text x="82" y="512" class="body">10.0.0.2/24</text>
+  <text x="82" y="537" class="small">hping3 cadencé ou pic iperf3</text>
+  <text x="82" y="557" class="small">générateur confiné au lab</text>
+
+  <rect x="450" y="285" width="210" height="150" class="box" rx="18" fill="#eff6ff" stroke="#93c5fd"/>
+  <path d="M488 337h134M505 319v36M555 319v36M605 319v36" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+  <text x="555" y="382" text-anchor="middle" class="node-title">s1 · Switch OVS</text>
+  <text x="555" y="408" text-anchor="middle" class="small">commutation L2</text>
+
+  <rect x="924" y="285" width="224" height="150" class="box host" fill="#ecfdf5" stroke="#86efac"/>
+  <rect x="963" y="311" width="43" height="37" rx="5" fill="#d1fae5" stroke="#059669" stroke-width="2"/><path d="M970 320h29M970 328h29M970 336h18" stroke="#059669" stroke-width="2"/>
+  <text x="1018" y="335" class="node-title">h3 · Serveur</text>
+  <text x="956" y="382" class="body">10.0.0.3/24</text>
+  <text x="956" y="408" class="small">récepteur VoIP et mesures</text>
+
+  <!-- Links -->
+  <path d="M288 216H380Q410 216 430 248L473 295" class="line" stroke="#2563eb" marker-end="url(#arrow-blue)"/>
+  <text x="325" y="192" class="link-label" fill="#1d4ed8">VoIP · UDP 64 kbit/s</text>
+  <path d="M288 502H380Q410 502 430 470L473 425" class="line" stroke="#dc2626" marker-end="url(#arrow-red)"/>
+  <text x="309" y="538" class="link-label" fill="#b91c1c">charge de test</text>
+  <path d="M660 360H924" class="line" stroke="#475569"/>
+  <rect x="721" y="325" width="145" height="70" rx="12" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+  <text x="793" y="353" text-anchor="middle" class="link-label" fill="#9a3412">Goulot TCLink</text>
+  <text x="793" y="376" text-anchor="middle" class="body" fill="#9a3412">10 Mbit/s</text>
+  <path d="M660 360H710" class="line" stroke="#475569"/>
+  <path d="M868 360H924" class="line" stroke="#475569" marker-end="url(#arrow-green)"/>
+
+  <!-- Control plane -->
+  <rect x="319" y="625" width="560" height="92" rx="16" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="345" y="657" class="node-title">Collecte, décision et action</text>
+  <text x="345" y="683" class="body">Fenêtres de flux → seuil ou modèle IA → règle tc (policing) sur l’entrée de h2</text>
+  <text x="345" y="704" class="small">S0–S5 : référence, attaque, QoS statique, seuil, IA et pic bénin</text>
+
+  <path d="M173 574V612Q173 652 306 652H318" class="line dash" stroke="#dc2626" marker-end="url(#arrow-red)"/>
+  <text x="76" y="608" class="small" fill="#b91c1c">observation h2</text>
+  <path d="M879 670H905Q930 670 930 646V576Q930 552 906 552H288" class="line dash" stroke="#059669" marker-end="url(#arrow-green)"/>
+  <text x="891" y="630" class="small" fill="#047857">commande policing · port s1-eth2</text>
+
+  <rect x="58" y="646" width="224" height="62" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="76" y="672" class="link-label">Mesures voix à h3</text>
+  <text x="76" y="693" class="small">perte · gigue · latence</text>
+  <path d="M1036 435V618Q1036 646 1008 646H889" class="line dash" stroke="#2563eb" marker-end="url(#arrow-blue)"/>
+  <text x="1047" y="530" class="small" transform="rotate(90 1047 530)">métriques récepteur</text>
+</svg>

@@ -4,6 +4,8 @@ Cette maquette compare la QoS de référence, le policing à seuil et le policin
 
 ## Topologie
 
+![Schéma de la topologie Mininet](topologie.svg)
+
 `h1` (VoIP UDP 64 kbit/s) et `h2` (source de surcharge) sont reliés à `s1`. La liaison `s1`–`h3` est le goulot `TCLink` limité à 10 Mbit/s. `run_lab.py` place le policing dynamique en entrée du port de `h2`, avant le goulot ; les mesures du flux voix sont prises à `h3`.
 
 Dans la VM Debian 13 dédiée, installer Mininet/Open vSwitch, `iperf3`, `hping3`, `iproute2`, `ethtool`, `tcpdump`, Python venv, puis Scapy, pandas, scikit-learn et joblib dans un venv. Vérifier les paquets avec `apt-cache policy mininet hping3 iperf3` avant l'installation.
